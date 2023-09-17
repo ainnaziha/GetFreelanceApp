@@ -16,11 +16,11 @@ export class AddComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
   ) {}
-  
+
   ngOnInit(): void {
     this.freelancerService.selectedFreelancer = null;
 
-    this.updateForm = this.formBuilder.group({
+    this.addForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNo: ['', [Validators.required]],
@@ -61,21 +61,23 @@ export class AddComponent implements OnInit {
     }
   }
 
-  updateForm!: FormGroup;
+  addForm!: FormGroup;
 
   public async add() {
-    const name = this.updateForm.get('name');
-    const email = this.updateForm.get('email');
-    const phoneNo = this.updateForm.get('phoneNo');
-    const hobby = this.updateForm.get('hobby');
+    const name = this.addForm.get('name');
+    const email = this.addForm.get('email');
+    const phoneNo = this.addForm.get('phoneNo');
+    const hobby = this.addForm.get('hobby');
     
-    if (this.updateForm.valid) {
-      let id: number | null = null;
-
+    if (this.addForm.valid) {
       const skillset = this.selectedSkills.join(', ');
 
       await this.freelancerService.addFreelancer(name?.value, email?.value, phoneNo?.value, skillset, hobby?.value);
       this.router.navigate(['/']);
     }
+  }
+
+  get isLoading(): boolean {
+    return this.freelancerService.isSubmitting;
   }
 }

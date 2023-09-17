@@ -9,7 +9,7 @@
 
         <mat-card-content class="p-32">
 
-          <form [formGroup]="updateForm" ngNativeValidate>
+          <form [formGroup]="addForm" ngNativeValidate>
               <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Name</mat-label>
               <mat-form-field appearance="outline" class="w-100" color="primary">
                   <input matInput formControlName="name" required />
@@ -57,8 +57,11 @@
                     Back
                   </div>
                 </button>
-                <button mat-flat-button color="accent" class="m-l-8 col-6" type="submit" (click)="add()">
+                <button mat-flat-button color="accent" class="m-l-8 col-6" type="submit" (click)="add()" [disabled]="isLoading">
                   <div class="row align-items-center">
+                    <span *ngIf="isLoading;" class="m-r-8">
+                      <mat-progress-spinner mode="indeterminate" diameter="20" color="white"></mat-progress-spinner>
+                    </span>
                     Submit
                     <mat-icon>keyboard_arrow_right</mat-icon>
                   </div>

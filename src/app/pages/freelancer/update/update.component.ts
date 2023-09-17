@@ -91,4 +91,8 @@ export class UpdateComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  get isLoading(): boolean {
+    return this.freelancerService.isSubmitting;
+  }
 }

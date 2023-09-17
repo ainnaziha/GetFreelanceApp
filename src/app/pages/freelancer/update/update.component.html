@@ -57,8 +57,11 @@
                       Back
                     </div>
                   </button>
-                  <button mat-flat-button color="accent" class="m-l-8 col-6" type="submit" (click)="update()">
+                  <button mat-flat-button color="accent" class="m-l-8 col-6" type="submit" (click)="update()" [disabled]="isLoading">
                     <div class="row align-items-center">
+                      <span *ngIf="isLoading;" class="m-r-8">
+                        <mat-progress-spinner mode="indeterminate" diameter="20" color="white"></mat-progress-spinner>
+                      </span>
                       Update
                       <mat-icon>keyboard_arrow_right</mat-icon>
                     </div>

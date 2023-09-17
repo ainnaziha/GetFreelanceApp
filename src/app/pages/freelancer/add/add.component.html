@@ -1,0 +1,72 @@
+<div class="blank-layout-container justify-content-center align-items-center bg-light-primary">
+  <div
+    class="position-relative row w-100 h-100 bg-gredient justify-content-center"
+  >
+    <div class="col-lg-4 d-flex align-items-center">
+      <mat-card class="cardWithShadow boxed-auth">
+
+        <div class="or-border m-t-30 m-x-32">Create New</div>
+
+        <mat-card-content class="p-32">
+
+          <form [formGroup]="updateForm" ngNativeValidate>
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Name</mat-label>
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput formControlName="name" required />
+              </mat-form-field>
+
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Adddress</mat-label>
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput type="email" formControlName="email" required />
+              </mat-form-field>
+
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Phone No</mat-label>
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput type="tel" formControlName="phoneNo" required />
+              </mat-form-field>
+
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Skillset</mat-label>
+              <mat-form-field class="example-chip-list w-100" appearance="outline" color="primary">
+                <mat-chip-grid #chipGrid aria-label="Enter skill">
+                  <mat-chip-row *ngFor="let skill of selectedSkills"
+                                (removed)="removeSkill(skill)"
+                                [editable]="true"
+                                (edited)="editSkill(skill, $event)"
+                                [aria-description]="'press enter to edit ' + skill">
+                    {{ skill }}
+                    <button matChipRemove [attr.aria-label]="'remove ' + skill">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                  <input placeholder="New skill..."
+                         [matChipInputFor]="chipGrid"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         (matChipInputTokenEnd)="addSkill($event)"/>
+                </mat-chip-grid>
+              </mat-form-field>
+
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Hobby</mat-label>
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                  <input matInput formControlName="hobby" />
+              </mat-form-field>
+
+              <div class="d-flex justify-content-center align-items-center m-t-24">
+                <button mat-flat-button color="primary" class="m-r-8 col-6" [routerLink]="['/']" style="color: #800020">
+                  <div class="row align-items-center">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                    Back
+                  </div>
+                </button>
+                <button mat-flat-button color="accent" class="m-l-8 col-6" type="submit" (click)="add()">
+                  <div class="row align-items-center">
+                    Submit
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                  </div>
+                </button>
+              </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

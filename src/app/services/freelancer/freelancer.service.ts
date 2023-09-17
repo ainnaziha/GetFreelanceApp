@@ -22,10 +22,10 @@ export class FreelancerService {
     private errorDialogService: ErrorDialogService,
   ) {}
   
-  public getFreelancers() {
+  public async getFreelancers() {
     this.isLoading = true;
 
-    this.httpService.get('freelancer').subscribe(
+    await this.httpService.get('freelancer').subscribe(
       (r) => {
         if (Array.isArray(r)) {
           this.freelancers = r.map((item) => new Freelancer(item));
@@ -38,10 +38,10 @@ export class FreelancerService {
     );
   }
 
-  public addFreelancer(username: string, email: string, phoneNo: string, skillset: string, hobby: string) {
+  public async addFreelancer(username: string, email: string, phoneNo: string, skillset: string, hobby: string) {
     this.isSubmitting = true;
 
-    this.httpService.post('freelancer', {
+    await this.httpService.post('freelancer', {
       'username': username,
       'email': email,
       'phoneNo': phoneNo,

@@ -1,0 +1,150 @@
+.alert {
+    background: #f8d7da;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+.animation-ctn{
+    text-align:center;
+    margin: 5em auto;
+}
+
+@-webkit-keyframes checkmark {
+0% {
+    stroke-dashoffset: 100px
+}
+
+100% {
+    stroke-dashoffset: 200px
+}
+}
+
+@-ms-keyframes checkmark {
+0% {
+    stroke-dashoffset: 100px
+}
+
+100% {
+    stroke-dashoffset: 200px
+}
+}
+
+@keyframes checkmark {
+0% {
+    stroke-dashoffset: 100px
+}
+
+100% {
+    stroke-dashoffset: 0px
+}
+}
+
+@-webkit-keyframes checkmark-circle {
+0% {
+    stroke-dashoffset: 480px
+
+}
+
+100% {
+    stroke-dashoffset: 960px;
+
+}
+}
+
+@-ms-keyframes checkmark-circle {
+0% {
+    stroke-dashoffset: 240px
+}
+
+100% {
+    stroke-dashoffset: 480px
+}
+}
+
+@keyframes checkmark-circle {
+0% {
+    stroke-dashoffset: 480px
+}
+
+100% {
+    stroke-dashoffset: 960px
+}
+}
+
+@keyframes colored-circle {
+0% {
+    opacity:0
+}
+
+100% {
+    opacity:100
+}
+}
+
+/* other styles */
+/* .svg svg {
+display: none
+}
+*/
+.inlinesvg .svg svg {
+display: inline
+}
+
+/* .svg img {
+display: none
+} */
+
+.icon--order-success svg polyline {
+-webkit-animation: checkmark 0.3s ease-in-out 0.9s backwards;
+animation: checkmark 0.3s ease-in-out 0.9s backwards
+}
+
+.icon--order-success svg circle {
+-webkit-animation: checkmark-circle 0.6s ease-in-out backwards;
+animation: checkmark-circle 0.6s ease-in-out backwards;
+}
+.icon--order-success svg circle#colored {
+-webkit-animation: colored-circle 0.6s ease-in-out 0.7s backwards;
+animation: colored-circle 0.6s ease-in-out 0.7s backwards;
+}
+
+.page-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .page-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 30px;
+    margin-bottom: 6px;
+  }
+  
+  .separator {
+    flex-grow: 1;
+    height: 1px;
+    background-color: $primary;
+    margin: 0 12px;
+  }
+  
+  .active .circle {
+    background-color: $secondary;
+    color: white;
+  }
+  
+  .page-step:not(.active) .circle {
+    background-color: $primary; 
+    color: #333; 
+  }
+  

@@ -14,85 +14,76 @@ export class FreelancerService {
   public isLoading = false;
   public isSubmitting = false;
   public freelancers: Freelancer[] = [];
+  public selectedFreelancer: Freelancer | null = null;
 
   constructor(
     public router: Router,
     private httpService: HttpService,
     private errorDialogService: ErrorDialogService,
   ) {}
-  
-  public getFreelancers() {
+
+  public async getFreelancers(): Promise<void> {
     this.isLoading = true;
 
-    this.httpService.get('freelancer').subscribe(
-      (r) => {
-        if (Array.isArray(r)) {
-          this.freelancers = r.map((item) => new Freelancer(item));
-        }
-        this.isLoading = false;
-      },
-      (e) => {
-        this.isLoading = false;
+    try {
+      const r = await this.httpService.get('freelancer').toPromise();
+      if (Array.isArray(r)) {
+        this.freelancers = r.map((item) => new Freelancer(item));
       }
-    );
+    } catch (_) {
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  public addFreelancer(username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
+  public async addFreelancer(username: string, email: string, phoneNo: string, skillset: string, hobby: string): Promise<void> {
     this.isSubmitting = true;
 
-    this.httpService.post('freelancer', {
-      'username': username,
-      'email': email,
-      'phoneNo': phoneNo,
-      'skillset': skillset.join(' | '),
-      'hobby': hobby
-    }).subscribe(
-      (r) => {
-        const response = new FreelancerResponse(r);
-        this.freelancers = response.freelancers;
-        this.isSubmitting = false;
-      },
-      (e) => {
-        this.isSubmitting = false;
-        this.errorDialogService.openDialog(e.error.message);
-      }
-    );
+    try {
+      const r = await this.httpService.post('freelancer', {
+        'username': username,
+        'email': email,
+        'phoneNo': phoneNo,
+        'skillset': skillset,
+        'hobby': hobby
+      }).toPromise();
+
+      const response = new FreelancerResponse(r);
+      this.freelancers = response.freelancers;
+    } catch (e: any) {
+      this.errorDialogService.openDialog(e.error.message);
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
-  public updateFreelancer(id: number, username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
+  public async updateFreelancer(id: number, username: string, email: string, phoneNo: string, skillset: string, hobby: string): Promise<void> {
     this.isSubmitting = true;
 
-    this.httpService.put(`freelancer/${id}`, {
-      'username': username,
-      'email': email,
-      'phoneNo': phoneNo,
-      'skillset': skillset.join(' | '),
-      'hobby': hobby
-    }).subscribe(
-      (r) => {
-        const response = new FreelancerResponse(r);
-        this.freelancers = response.freelancers;
-        
-        this.isSubmitting = false;
-      },
-      (e) => {
-        this.isSubmitting = false;
-        this.errorDialogService.openDialog(e.error.message);
-      }
-    );
+    try {
+      const r = await this.httpService.put(`freelancer/${id}`, {
+        'username': username,
+        'email': email,
+        'phoneNo': phoneNo,
+        'skillset': skillset,
+        'hobby': hobby
+      }).toPromise();
+
+      const response = new FreelancerResponse(r);
+      this.freelancers = response.freelancers;
+    } catch (e: any) {
+      this.errorDialogService.openDialog(e.error.message);
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 
-  public deleteFreelancer(id: number) {
-    this.isSubmitting = true;
-
-    this.httpService.delete(`freelancer/${id}`).subscribe(
-      (r) => {
-        this.isSubmitting = false;
-      },
-      (e) => {
-        this.isSubmitting = false;
-        this.errorDialogService.openDialog(e.error.message);
-      }
-    );
+  public async deleteFreelancer(id: number): Promise<void> {
+    try {
+      await this.httpService.delete(`freelancer/${id}`).toPromise();
+      this.getFreelancers();
+    } catch (_) {
+      this.getFreelancers();
+    }
   }
 }

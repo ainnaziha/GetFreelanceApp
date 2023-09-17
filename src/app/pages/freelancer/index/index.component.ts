@@ -11,11 +11,10 @@ import { FreelancerService } from 'src/app/services/freelancer/freelancer.servic
 export class IndexComponent implements OnInit {
   constructor(
     private freelancerService: FreelancerService,
-    private errorDialogService: ErrorDialogService,
-    private router: Router,
    ) {}
 
   ngOnInit() {
+    this.freelancerService.selectedFreelancer = null;
     this.freelancerService.getFreelancers();
   }
 

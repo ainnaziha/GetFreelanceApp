@@ -14,6 +14,7 @@ export class FreelancerService {
   public isLoading = false;
   public isSubmitting = false;
   public freelancers: Freelancer[] = [];
+  public selectedFreelancer: Freelancer | null = null;
 
   constructor(
     public router: Router,
@@ -37,14 +38,14 @@ export class FreelancerService {
     );
   }
 
-  public addFreelancer(username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
+  public addFreelancer(username: string, email: string, phoneNo: string, skillset: string, hobby: string) {
     this.isSubmitting = true;
 
     this.httpService.post('freelancer', {
       'username': username,
       'email': email,
       'phoneNo': phoneNo,
-      'skillset': skillset.join(' | '),
+      'skillset': skillset,
       'hobby': hobby
     }).subscribe(
       (r) => {
@@ -59,14 +60,14 @@ export class FreelancerService {
     );
   }
 
-  public updateFreelancer(id: number, username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
+  public updateFreelancer(id: number, username: string, email: string, phoneNo: string, skillset: string, hobby: string) {
     this.isSubmitting = true;
 
     this.httpService.put(`freelancer/${id}`, {
       'username': username,
       'email': email,
       'phoneNo': phoneNo,
-      'skillset': skillset.join(' | '),
+      'skillset': skillset,
       'hobby': hobby
     }).subscribe(
       (r) => {
@@ -83,14 +84,12 @@ export class FreelancerService {
   }
 
   public deleteFreelancer(id: number) {
-    this.isSubmitting = true;
 
     this.httpService.delete(`freelancer/${id}`).subscribe(
       (r) => {
-        this.isSubmitting = false;
+        this.getFreelancers();
       },
       (e) => {
-        this.isSubmitting = false;
         this.errorDialogService.openDialog(e.error.message);
       }
     );

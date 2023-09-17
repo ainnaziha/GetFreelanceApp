@@ -79,6 +79,10 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatFormFieldModule, 
+    MatProgressSpinnerModule,
+    MatChipsModule,
+    MatIconModule,
   ],
 })
 export class MaterialModule {}

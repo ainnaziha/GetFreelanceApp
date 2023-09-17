@@ -11,6 +11,10 @@ import { BodyComponent } from './pages/layouts/body/body.component';
 import { HeaderComponent } from './pages/layouts/header/header.component';
 import { IndexComponent } from './pages/freelancer/index/index.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserCardComponent } from './pages/components/user/user-card.component';
+import { UpdateComponent } from './pages/freelancer/update/update.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddComponent } from './pages/freelancer/add/add.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     BodyComponent,
     HeaderComponent,
     IndexComponent,
+    UserCardComponent,
+    UpdateComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule, 
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

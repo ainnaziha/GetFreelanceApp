@@ -3,33 +3,25 @@
 </div>
   <mat-card class="cardWithShadow theme-card">
     <mat-card-header>
-      <mat-card-title class="m-b-0">Shopping Cart</mat-card-title>
+      <div class="d-flex w-100 p-b-24">
+        <mat-card-title>Freelancer List</mat-card-title>
+        <div class="m-l-auto">
+          <a
+            mat-flat-button
+            color="accent"
+            [routerLink]="['/add']"
+            class="d-flex justify-content-center"
+          >
+            Add New
+          </a>
+        </div>
+      </div>
     </mat-card-header>
     <mat-card-content class="b-t-1">  
       <div class="row">
         <div class="col-sm-12 col-lg-6" *ngFor="let e of freelancers">
-          <!-- <app-cart-card [cart]="e"></app-cart-card> -->
+          <app-user-card [user]="e"></app-user-card>
         </div>
-      </div>
-
-      <div class="m-t-20 col d-flex flex-column align-items-end">
-        <div class="row m-r-0">
-            <p class="f-w-700 f-s-16">Total:&nbsp;</p>
-            <p class="f-s-16">kkkk</p>
-        </div>
-        <button
-          mat-flat-button
-          color="accent"
-          matTooltip="Checkout"
-        >
-          <span>
-            <mat-progress-spinner
-              mode="indeterminate"
-              diameter="20"
-              color="accent"
-            ></mat-progress-spinner>
-          </span>
-        </button>
       </div>
     </mat-card-content>
 </mat-card>

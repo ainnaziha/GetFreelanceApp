@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../http/http.service';
+import { Freelancer } from 'src/app/models/freelancer.model';
+import { FreelancerResponse } from 'src/app/models/freelancer-response.model';
+import { ErrorDialogComponent } from 'src/app/pages/components/error-dialog/error-dialog.component';
+import { ErrorDialogService } from '../error-dialog/error-dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,84 +13,85 @@ import { HttpService } from '../http/http.service';
 export class FreelancerService {
   public isLoading = false;
   public isSubmitting = false;
+  public freelancers: Freelancer[] = [];
 
   constructor(
     public router: Router,
     private httpService: HttpService,
+    private errorDialogService: ErrorDialogService,
   ) {}
   
   public getFreelancers() {
     this.isLoading = true;
 
-    this.httpService.post('', {}).subscribe(
+    this.httpService.get('freelancer').subscribe(
       (r) => {
-        // if (r['data'] != null) {
-        //   const user = new User(r['data']);
-        //   localStorage.setItem('user', JSON.stringify(user));
-        //   this.isLoggingIn = false;
-        //   this.router.navigate(['/home']);
-        // }
+        if (Array.isArray(r)) {
+          this.freelancers = r.map((item) => new Freelancer(item));
+        }
+        this.isLoading = false;
       },
       (e) => {
         this.isLoading = false;
-        //this.errorDialogService.openDialog(e.error.message);
       }
     );
   }
 
-  public addFreelancer() {
+  public addFreelancer(username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
     this.isSubmitting = true;
 
-    this.httpService.post('', {}).subscribe(
+    this.httpService.post('freelancer', {
+      'username': username,
+      'email': email,
+      'phoneNo': phoneNo,
+      'skillset': skillset.join(' | '),
+      'hobby': hobby
+    }).subscribe(
       (r) => {
-        // if (r['data'] != null) {
-        //   const user = new User(r['data']);
-        //   localStorage.setItem('user', JSON.stringify(user));
-        //   this.isLoggingIn = false;
-        //   this.router.navigate(['/home']);
-        // }
+        const response = new FreelancerResponse(r);
+        this.freelancers = response.freelancers;
+        this.isSubmitting = false;
       },
       (e) => {
         this.isSubmitting = false;
-        //this.errorDialogService.openDialog(e.error.message);
+        this.errorDialogService.openDialog(e.error.message);
       }
     );
   }
 
-  public updateFreelancer() {
+  public updateFreelancer(id: number, username: string, email: string, phoneNo: string, skillset: string[], hobby: string) {
     this.isSubmitting = true;
 
-    this.httpService.post('', {}).subscribe(
+    this.httpService.put(`freelancer/${id}`, {
+      'username': username,
+      'email': email,
+      'phoneNo': phoneNo,
+      'skillset': skillset.join(' | '),
+      'hobby': hobby
+    }).subscribe(
       (r) => {
-        // if (r['data'] != null) {
-        //   const user = new User(r['data']);
-        //   localStorage.setItem('user', JSON.stringify(user));
-        //   this.isLoggingIn = false;
-        //   this.router.navigate(['/home']);
-        // }
+        const response = new FreelancerResponse(r);
+        this.freelancers = response.freelancers;
+        
+        this.isSubmitting = false;
       },
       (e) => {
         this.isSubmitting = false;
-        //this.errorDialogService.openDialog(e.error.message);
+        this.errorDialogService.openDialog(e.error.message);
       }
     );
   }
 
-  public deleteFreelancer() {
+  public deleteFreelancer(id: number) {
     this.isSubmitting = true;
 
-    this.httpService.post('', {}).subscribe(
+    this.httpService.delete(`freelancer/${id}`).subscribe(
       (r) => {
-        // if (r['data'] != null) {
-        //   const user = new User(r['data']);
-        //   localStorage.setItem('user', JSON.stringify(user));
-        //   this.isLoggingIn = false;
-        //   this.router.navigate(['/home']);
-        // }
+        this.isSubmitting = false;
       },
       (e) => {
         this.isSubmitting = false;
-        //this.errorDialogService.openDialog(e.error.message);
+        this.errorDialogService.openDialog(e.error.message);
       }
     );
   }
